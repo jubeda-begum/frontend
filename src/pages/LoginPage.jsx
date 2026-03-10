@@ -46,8 +46,8 @@ export function LoginPage() {
         </Link>
         <Card className="border-slate-200/80 shadow-xl dark:border-slate-800">
           <CardHeader className="space-y-1 pb-4">
-            <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500 text-white">
-              HH
+            <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-transparent text-white">
+              <img src="/logo.png" alt="HealthyHabits" className="h-12 w-12 rounded-xl shadow-sm" />
             </div>
             <CardTitle className="text-2xl">Welcome back</CardTitle>
             <p className="text-sm text-slate-500 dark:text-slate-400">

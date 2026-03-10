@@ -8,14 +8,12 @@ export function LandingPage() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/50 dark:from-slate-950 dark:via-slate-900 dark:to-emerald-950/30">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/50 dark:from-slate-950 dark:via-[#0a0f12] dark:to-[#0f1a1c]">
       {/* Header */}
       <header className="border-b border-slate-200/80 dark:border-slate-800">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
           <div className="flex items-center gap-2">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500 text-lg font-bold text-white shadow-lg shadow-emerald-500/25">
-              HH
-            </span>
+            <img src="/logo.png" alt="HealthyHabits" className="h-10 w-10 rounded-xl shadow-sm" />
             <span className="text-lg font-semibold tracking-tight">HealthyHabits</span>
           </div>
           <div className="flex items-center gap-4">
@@ -88,7 +86,7 @@ export function LandingPage() {
               key={f.title}
               className="rounded-2xl border border-slate-200/80 bg-white/80 p-6 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/80"
             >
-              <span className="text-2xl">{f.icon}</span>
+              <span className="text-2xl text-slate-800 dark:text-emerald-400">{f.icon}</span>
               <h3 className="mt-3 font-semibold text-slate-900 dark:text-white">{f.title}</h3>
               <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{f.desc}</p>
             </div>

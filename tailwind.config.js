@@ -5,21 +5,21 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: 'hsl(0 0% 100%)',
-        foreground: 'hsl(222.2 47.4% 11.2%)',
-        muted: 'hsl(210 40% 96.1%)',
-        'muted-foreground': 'hsl(215.4 16.3% 46.9%)',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        muted: 'hsl(var(--muted))',
+        'muted-foreground': 'hsl(var(--muted-foreground))',
         primary: {
-          DEFAULT: 'hsl(221.2 83.2% 53.3%)',
-          foreground: 'hsl(210 40% 98%)'
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))'
         },
         destructive: {
-          DEFAULT: 'hsl(0 84.2% 60.2%)',
-          foreground: 'hsl(210 40% 98%)'
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))'
         },
-        card: 'hsl(0 0% 100%)',
-        'card-foreground': 'hsl(222.2 47.4% 11.2%)',
-        border: 'hsl(214.3 31.8% 91.4%)'
+        card: 'hsl(var(--background))',
+        'card-foreground': 'hsl(var(--foreground))',
+        border: 'hsl(var(--border))'
       },
       borderRadius: {
         lg: '0.75rem',

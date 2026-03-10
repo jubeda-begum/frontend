@@ -3,7 +3,7 @@ import React from 'react';
 export function Card({ className = '', ...props }) {
   return (
     <div
-      className={`rounded-lg border border-border bg-card text-card-foreground shadow-sm ${className}`}
+      className={`rounded-xl border border-border bg-card/90 backdrop-blur-md text-card-foreground shadow-sm dark:bg-slate-900/50 dark:border-slate-800/50 ${className}`}
       {...props}
     />
   );

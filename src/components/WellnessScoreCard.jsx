@@ -34,7 +34,10 @@ export function WellnessScoreCard({ score = 0, previousScore = 0 }) {
         Wellness Score
       </h2>
 
-      <p className="text-6xl font-bold mt-2 tracking-tight">
+      <p
+        className="font-bold mt-2 tracking-tight transition-all duration-300 ease-out"
+        style={{ fontSize: `${Math.max(3, Math.min(7, 3 + (score / 100) * 4))}rem`, lineHeight: 1 }}
+      >
         {animatedScore}
       </p>
 

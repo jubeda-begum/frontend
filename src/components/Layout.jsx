@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useTheme } from '../context/ThemeContext.jsx';
@@ -9,78 +9,104 @@ export function Layout({ children }) {
   const { logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
 
+  const navItems = [
+    { name: 'Dashboard', path: '/dashboard', icon: '📊', end: true },
+    { name: 'Habits', path: '/habits', icon: '✓', end: false },
+    { name: 'Analytics', path: '/analytics', icon: '📈', end: false },
+    { name: 'Mood', path: '/mood', icon: '💭', end: false },
+  ];
+
   const linkBase =
-    'px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-muted hover:text-foreground';
+    'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200';
+
+  const activeClass = 'bg-emerald-500 text-white shadow-md shadow-emerald-500/20';
+  const inactiveClass = 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/50 dark:hover:text-slate-100';
+
+  const NavContent = () => (
+    <nav className="flex flex-col gap-2">
+      {navItems.map((item) => (
+        <NavLink
+          key={item.path}
+          to={item.path}
+          end={item.end}
+          onClick={() => setMobileMenuOpen(false)}
+          className={({ isActive }) => `${linkBase} ${isActive ? activeClass : inactiveClass}`}
+        >
+          <span className="text-lg">{item.icon}</span>
+          {item.name}
+        </NavLink>
+      ))}
+    </nav>
+  );
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
-      <header className="border-b border-border">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-3">
-            <span className="rounded-full bg-primary/10 p-2 text-primary font-bold">HH</span>
-            <div>
-              <p className="text-base font-semibold">HealthyHabits Tracker</p>
-              <p className="text-xs text-muted-foreground">
-                Build consistent habits for better wellness
-              </p>
+    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-slate-50/80 to-emerald-50/50 dark:from-slate-950 dark:via-[#0a0f12] dark:to-[#0f1a1c] text-slate-900 dark:text-slate-100 selection:bg-emerald-500/30 font-sans">
+      {/* Sidebar for Desktop */}
+      <aside className="hidden md:flex flex-col w-64 flex-shrink-0 border-r border-slate-200/60 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/20 backdrop-blur-xl">
+        <div className="p-6">
+          <div className="flex items-center gap-3 mb-8">
+            <img src="/logo.png" alt="HealthyHabits" className="h-10 w-10 rounded-xl shadow-sm" />
+            <div className="flex flex-col leading-tight">
+              <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">HealthyHabits</span>
+              <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Tracker</span>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <span>{theme === 'light' ? 'Light' : 'Dark'} mode</span>
+          <NavContent />
+        </div>
+      </aside>
+
+      {/* Main Content Area */}
+      <div className="flex flex-1 flex-col overflow-hidden relative">
+        {/* Top Navbar */}
+        <header className="flex items-center justify-between md:justify-end border-b border-slate-200/60 dark:border-slate-800/60 bg-white/50 dark:bg-slate-900/40 backdrop-blur-md p-4 sticky top-0 z-20">
+
+          <div className="flex items-center gap-2 md:hidden">
+            <Button variant="ghost" className="p-2 mr-2" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+              <span className="text-xl">{mobileMenuOpen ? '✕' : '☰'}</span>
+            </Button>
+            <img src="/logo.png" alt="HealthyHabits" className="h-8 w-8 rounded-lg shadow-sm" />
+            <span className="font-bold text-slate-900 dark:text-white lg:hidden">HealthyHabits</span>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className="hidden sm:flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300">
+              <span>{theme === 'light' ? 'Light Mode' : 'Dark Mode'}</span>
               <Switch checked={theme === 'dark'} onChange={toggleTheme} />
             </div>
-            <Button variant="outline" onClick={handleLogout}>
+            {/* Mobile only Dark mode switch to save header space */}
+            <div className="sm:hidden flex items-center">
+              <Switch checked={theme === 'dark'} onChange={toggleTheme} />
+            </div>
+
+            <Button variant="outline" className="border-slate-200 dark:border-slate-800 dark:hover:bg-slate-800 dark:text-slate-300" onClick={handleLogout}>
               Logout
             </Button>
           </div>
-        </div>
-        <nav className="mx-auto flex max-w-6xl gap-2 px-4 pb-3">
-          <NavLink
-            to="/dashboard"
-            end
-            className={({ isActive }) =>
-              `${linkBase} ${isActive ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`
-            }
-          >
-            Dashboard
-          </NavLink>
-          <NavLink
-            to="/habits"
-            className={({ isActive }) =>
-              `${linkBase} ${isActive ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`
-            }
-          >
-            Habits
-          </NavLink>
-          <NavLink
-            to="/analytics"
-            className={({ isActive }) =>
-              `${linkBase} ${isActive ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`
-            }
-          >
-            Analytics
-          </NavLink>
-          <NavLink
-            to="/mood"
-            className={({ isActive }) =>
-              `${linkBase} ${isActive ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'}`
-            }
-          >
-            Mood
-          </NavLink>
-        </nav>
-      </header>
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 py-4">{children}</main>
-      <footer className="border-t border-border py-3 text-center text-xs text-muted-foreground">
-        Wellness insights are for awareness only and not a medical diagnosis.
-      </footer>
+        </header>
+
+        {/* Mobile Menu Dropdown */}
+        {mobileMenuOpen && (
+          <div className="md:hidden absolute top-[73px] left-0 right-0 bottom-0 bg-white/95 dark:bg-slate-950/95 backdrop-blur-lg z-10 p-4 flex flex-col">
+            <NavContent />
+          </div>
+        )}
+
+        <main className="flex-1 overflow-y-auto p-4 md:p-8">
+          <div className="mx-auto max-w-5xl h-full pb-10">
+            {children}
+          </div>
+          <footer className="mt-8 text-center text-xs text-slate-500 dark:text-slate-500">
+            Wellness insights are for awareness only and not a medical diagnosis.
+          </footer>
+        </main>
+      </div>
     </div>
   );
 }
